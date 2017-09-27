@@ -70,16 +70,59 @@ function get_loaitin($idTL)
     return mysql_query($sql);
 }
 
-// Ham lay loai tin voi loai tin cho truoc
-function Danhsach_tin($idLT,$start=0,$end=10)
+// Ham lay loai tin trong bang loai tin 
+function Danhsach_tin($idLT)
 {
-    $sql = "SELECT * FROM tin WHERE idLT=".$idLT." AND AnHien=1 ORDER BY idTin DESC LIMIT $start,$end";
+    $sql = "SELECT * FROM tin WHERE idLT=".$idLT." AND AnHien=1 ORDER BY idTin DESC";
     return mysql_query($sql);
 }
+
+// Ham lay tin trong bang loai tin 
+function Danhsach_2tin($idLT,$start=1,$end=2)
+{
+    // $sql = "SELECT * FROM tin WHERE idLT=".$idLT." AND AnHien=1 ORDER BY idTin DESC LIMIT $start,$end";
+    $sql = "SELECT * FROM tin WHERE idLT=$idLT LIMIT $start,$end";
+    return mysql_query($sql);
+}
+
+// Ham lay loai tin trong bang loai tin 
+function Danhsach_tin_Phantrang($idLT,$from,$sotin1trang)
+{
+    $sql = "SELECT * FROM tin WHERE idLT=".$idLT." AND AnHien=1 ORDER BY idTin DESC LIMIT $from,$sotin1trang";
+    return mysql_query($sql);
+}
+
+
+// Ham lay loai tin trong bang the loai tin 
+function Danhsach_tin_theloai($idTL,$start=0,$end=10)
+{
+    $sql = "SELECT * FROM tin WHERE idTL=".$idTL." AND AnHien=1 ORDER BY idTin DESC";
+    return mysql_query($sql);
+}
+
+// Ham lay loai tin trong bang the loai tin  phan trang
+function Danhsach_tin_theloai_Phantrang($idTL,$from,$sotin1trang)
+{
+    $sql = "SELECT * FROM tin WHERE idTL=".$idTL." AND AnHien=1 ORDER BY idTin DESC LIMIT $from,$sotin1trang";
+    return mysql_query($sql);
+}
+
 
 // Lay thong tin tin theo IDTIN
 function get_tin_info($idTin)
 {
      $sql = "SELECT * FROM tin WHERE idTin=".$idTin." AND AnHien=1";
+    return mysql_query($sql);
+}
+
+// ham lay loai tin va the loai
+function get_theloai_loaitin($idLT)
+{
+    $sql ="SELECT * FROM theloai INNER JOIN loaitin ON theloai.idTL=loaitin.idTL WHERE loaitin.idLT=$idLT";
+    return mysql_query($sql);
+}
+
+function get_query($sql='')
+{
     return mysql_query($sql);
 }

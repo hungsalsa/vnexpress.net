@@ -32,7 +32,7 @@ if (mysql_num_rows($tin)) {
 
                <li>
                 <div class="title_news">
-               		<a href="index.php?chitiettin&idTin=<?= $new_6['idTin'] ?>" class="txt_link"> <?= $new_6['TieuDe'] ?> </a> 
+               		<a href="index.php?p=chitiettin&idTin=<?= $new_6['idTin'] ?>" class="txt_link"> <?= $new_6['TieuDe'] ?> </a> 
                 </div>
               </li>
 

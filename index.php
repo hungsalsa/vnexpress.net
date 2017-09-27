@@ -63,6 +63,9 @@
 				case "tintrongloai":
 					require("pages/tintrongloai.php");
 					break;
+					case "tintheloai":
+					require("pages/tintheloai.php");
+					break;
 				case "chitiettin":
 					require("pages/chitiettin.php");
 					break;
