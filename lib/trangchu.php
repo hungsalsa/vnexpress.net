@@ -126,3 +126,31 @@ function get_query($sql='')
 {
     return mysql_query($sql);
 }
+
+function timkiem($key='')
+{
+    $sql = "SELECT * FROM tin WHERE TieuDe LIKE '%$key%'";
+    return mysql_query($sql);
+}
+
+function timkiem_Phantrang($key='',$from,$sotin1trang)
+{
+    $sql = "SELECT * FROM tin WHERE TieuDe REGEXP '$key' ORDER BY idTin DESC LIMIT $from,$sotin1trang";
+    return mysql_query($sql);
+}
+
+function timkiem_Phantrang2($key='',$from,$sotin1trang)
+{
+    $sql = "SELECT * FROM tin WHERE TieuDe LIKE '%$key%' ORDER BY idTin DESC LIMIT $from,$sotin1trang";
+    return mysql_query($sql);
+}
+// where Ten like '%" + Tim + "%'
+
+// tim kiem user
+function get_user($user_info)
+{
+    $username = $user_info['username'];
+    $password = md5($user_info['password']);
+    $sql = "SELECT * FROM users WHERE Username = '$username ' AND `Password`='$password' AND Active=1";
+    return mysql_query($sql);
+}

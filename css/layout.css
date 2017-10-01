@@ -71,10 +71,12 @@ ul{ list-style:none}
 #content-vp	#content-right .cat .cat-content .title a{ color:#333}	
 #content-vp #content-right .cat .cat-content .title a:hover{ color:#900}	
 #content-vp #content-right .cat .cat-content .col2{ float:left; clear:both}	
+#content-right .user{ width: 100%;margin: 0 5px; }
 	
 		#content-vp #content-left .news{ min-height:150px; border-bottom:solid 1px #E2E2E3; padding:10px 0; margin-right:5px}
 		#content-vp #content-left .title a{ color:#333; font-weight:bold}
 		#content-vp #content-left a:hover{ color:#900}
+
 	
 	#content-vp #content-main .box-cat{ margin-right:5px}
 	#content-vp .cat{ background:url(../images/bg_1x28.gif) repeat-x; height:30px; padding:0 0 0 10px; margin:7px 0 10px 0}

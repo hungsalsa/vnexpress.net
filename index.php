@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	require "lib/trangchu.php";
 	if( isset($_GET["p"]) ){
 		$p = $_GET['p'];
@@ -6,6 +7,28 @@
 		$p = "";
 	}
 
+?>
+<?php 
+	// kiem  tra login
+	if(isset($_POST['btnLogin'])) {
+		$user = $_POST;
+		$user = get_user($user);
+		if(mysql_num_rows($user)){
+			$user_info = mysql_fetch_assoc($user);
+			// print_r($user_info);
+			$_SESSION['idUser'] = $user_info['idUser'];
+			$_SESSION['HoTen'] = $user_info['HoTen'];
+			$_SESSION['idGroup'] = $user_info['idGroup'];
+		}
+		// $user = get_user($user_infor);
+		// $result = mysql_fetch_assoc($user);
+		// print_r($result);
+	}
+	if(isset($_POST['logOut'])){
+		unset($_SESSION['idUser']);
+		unset($_SESSION['HoTen']);
+		unset($_SESSION['idGroup']);
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -69,6 +92,9 @@
 				case "chitiettin":
 					require("pages/chitiettin.php");
 					break;
+				case "timkiem":
+					require("pages/timkiem.php");
+					break;
 
 				default:
 					require("pages/trangchu.php");
@@ -78,7 +104,15 @@
             
         </div>
         <div id="content-right">
+        	<div class="user">
+        		<?php if (!isset($_SESSION['idUser'])): ?>
+			        <?php require("blocks/formlogin.php") ?>
+				<?php else: ?>
+					<?php require("blocks/formHello.php") ?>
+				<?php endif ?>
+        	</div>
 			<!--blocks/cot_phai.php-->
+			
 			<?php require("blocks/cot_phai.php") ?>
         </div>
 
