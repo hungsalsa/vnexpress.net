@@ -4,7 +4,7 @@ require ('../lib/dbCon.php');
 // Ham lay danh sach the loai
 function get_theloai()
 {
-    $sql = "SELECT * FROM theloai WHERE AnHien=1";
+    $sql = "SELECT * FROM theloai WHERE AnHien=1 ORDER BY idTL DESC";
     return mysql_query($sql);
 }
 
@@ -80,3 +80,21 @@ function utf8Url($string){
  
 $title = 'Chuyển tiếng viết có dấu sang không dấu trong PHP';
 $url = sanitizeTitle($title);
+
+
+function insert_TheLoai($array = array())
+{
+
+    if(!empty($array)){
+        // Attempt insert query execution
+        $sql = "INSERT INTO theloai (idTL,TenTL, TenTL_KhongDau, ThuTu, AnHien) VALUES (null,'".$array['TenTL']."', '".sanitizeTitle($array['TenTL'])."', '".$array['ThuTu']."','".$array['AnHien']."')";
+        if($link = mysql_query($sql)){
+            return "Records inserted successfully.";
+        } else{
+            return "ERROR: Could not able to execute $sql. " ;
+        }
+    }
+    
+
+
+}

@@ -48,11 +48,9 @@ if(!mysql_num_rows($theloai)){
 
         <div class="x_content">
           <p class="text-muted font-13 m-b-30">
-           <?php if (isset($message)): ?>
-             <?= $message ?>
-           <?php else: ?>
+           
             Danh sách thể loại
-           <?php endif ?>
+           <span class="insert" style="float: right;"><a href="index.php?p=themTheLoai"><button type="button" class="btn btn-success">Thêm mới thể loại</button></a></span>
           </p>
 
           <?php if (mysql_num_rows($theloai)): ?>

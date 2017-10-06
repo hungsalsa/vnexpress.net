@@ -12,6 +12,7 @@
 	}else{
 		$p = "";
 	}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,11 @@
 			<?php 
 			switch ($p) {
 				case "listTheLoai":
-					require("pages/theloai/listTheLoai.php");
+					require("pages/theloai/danhsach.php");
+					break;
+
+				case "themTheLoai":
+					require("pages/theloai/insert_.php");
 					break;
 
 				case "listLoaiTin":
