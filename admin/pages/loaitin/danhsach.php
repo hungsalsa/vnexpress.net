@@ -1,9 +1,14 @@
-
+<?php 
+$loaitin = get_listLoaiTin();
+if(!mysql_num_rows($loaitin)){
+  $message ="Khong co co so du lieu";
+}
+?>
 
 <div class="">
   <div class="page-title">
     <div class="title_left">
-      <h3>Users <small>Some examples to get you started</small></h3>
+      <h3>Danh sách loại tin</h3>
     </div>
 
     <div class="title_right">
@@ -23,6 +28,9 @@
       <div class="x_panel">
         <div class="x_title">
           <h2>Fixed Header Example <small>Users</small></h2>
+          <?php if (isset($_SESSION['message'])): ?>
+            <span style="margin-left: 200px;color: #EC0408;"><?= $_SESSION['message']; ?></span>
+          <?php unset($_SESSION['message']); endif ?>
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -43,50 +51,46 @@
 
         <div class="x_content">
           <p class="text-muted font-13 m-b-30">
-           <?php if (isset($message)): ?>
-             <?= $message ?>
-           <?php else: ?>
+           
             Danh sách thể loại
-           <?php endif ?>
+           <span class="insert" style="float: right;"><a href="index.php?p=themloaitin"><button type="button" class="btn btn-success">Thêm mới loại tin</button></a></span>
           </p>
 
-
-          <?php 
-            $loaitin = get_listLoaiTin();
-            // if(mysql_num_rows($loaitin)){
-            //      while($result = mysql_fetch_array($loaitin)){
-            //     }
-            //   }
-            ?>
           <?php if (mysql_num_rows($loaitin)): ?>
         
           <table id="datatable-fixed-header" class="table table-striped table-bordered">
             <thead>
               <tr>
-                <th width="10%">idTL</th>
+                <th>idLT</th>
                 <th>Tên</th>
-                <th width="10%">Thứ tự</th>
-                <th width="10%">Trạng thái</th>
-                <th width="15%">Action</th>
+                <th>Tên không dấu</th>
+                <th>Thứ tự</th>
+                <th>Thể loại</th>
+                <th>Trạng thái</th>
+                <th>Action</th>
               </tr>
             </thead>
 
 
             <tbody>
 
-              <?php while($result= mysql_fetch_assoc($loaitin)): ob_start();?>
+              <?php while($result = mysql_fetch_assoc($loaitin)): ob_start();?>
               <tr>
                 <td>{idLT}</td>
                 <td>{Ten}</td>
+                <td>{Ten_KhongDau}</td>
                 <td>{ThuTu}</td>
+                <td>{idTL}</td>
                 <td>{AnHien}</td>
-                <td><a href="suaTheLoai.php?idLT={idLT}">Sua</a> - <a href="xoaTheLoai.php?idLT={idLT}">Xoa</a></td>
+                <td><a href="index.php?p=themloaitin&idLT={idLT}">Sua <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="pages/loaitin/xoaloaitin.php?idLT={idLT}" onclick="delete_TL('{Ten}')">Xoa <i class="fa fa-trash"></i></a></td>
               </tr>
               <?php 
               $s = ob_get_clean();
               $s = str_replace("{idLT}",$result['idLT'],$s);
               $s = str_replace("{Ten}",$result['Ten'],$s);
+              $s = str_replace("{Ten_KhongDau}",$result['Ten_KhongDau'],$s);
               $s = str_replace("{ThuTu}",$result['ThuTu'],$s);
+              $s = str_replace("{idTL}",$result['idTL'],$s);
               $s = str_replace("{AnHien}",($result['AnHien']==1)?'Hiện':'Ẩn',$s);
               echo $s;
               ?>
@@ -102,3 +106,10 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+   function delete_TL(idLT) {
+       confirm('Ban co muon xoa '+idLT);
+    }
+  
+</script>

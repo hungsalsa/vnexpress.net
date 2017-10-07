@@ -29,7 +29,7 @@ require ('dbCon.php');
     return mysql_query($sql);
 }
 
-// Lay  thong tin loai tii theo the loai
+// Lay  thong tin loai tin theo the loai
 function get_info_loaitin($idLT)
 {
     $sql = "SELECT * FROM loaitin WHERE idLT=$idLT";
@@ -60,6 +60,13 @@ function get_Advert_right($vitri=1)
 function get_theloai()
 {
     $sql = "SELECT * FROM theloai";
+    return mysql_query($sql);
+}
+
+// ham lay danh sach the loai len menu
+function get_TheLoai_menu()
+{
+    $sql = "SELECT * FROM theloai WHERE AnHien=1  ORDER BY rand() LIMIT 11";
     return mysql_query($sql);
 }
 

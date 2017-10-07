@@ -1,10 +1,33 @@
 <?php
-require ('../lib/dbCon.php');
+$link = mysql_connect("localhost","root","");
+mysql_select_db("vnexpress.net");
+mysql_query("SET NAMES 'utf8'");
 
 // Ham lay danh sach the loai
 function get_theloai()
 {
+    $sql = "SELECT * FROM theloai ORDER BY idTL DESC";
+    return mysql_query($sql);
+}
+
+// Ham lay danh sach the loai active
+function get_theloai_Active()
+{
     $sql = "SELECT * FROM theloai WHERE AnHien=1 ORDER BY idTL DESC";
+    return mysql_query($sql);
+}
+
+// Ham lay danh sach the loai theo idTL
+function get_theloai_id($idTL)
+{
+    $sql = "SELECT * FROM theloai WHERE idTL='$idTL' ORDER BY idTL DESC";
+    return mysql_query($sql);
+}
+
+// Ham Xoa the loai theo idTL
+function TheLoai_delete($idTL)
+{
+    $sql = "DELETE FROM theloai WHERE idTL='$idTL'";
     return mysql_query($sql);
 }
 
@@ -17,22 +40,28 @@ function get_tin()
 // Hàm lấy danh sách loại tin
 function get_listLoaiTin()
 {
-    $sql =  "SELECT * FROM loaitin WHERE AnHien=1";
+    $sql =  "SELECT * FROM loaitin";
     return mysql_query($sql);
-   
 }
 
 // Ham lay loai tin theo idLT
 function get_LoaiTin($idLT)
 {
-    $sql = "SELECT * FROM loaitin WHERE idLT ='$idLT' AND AnHien=1";
+    $sql = "SELECT * FROM loaitin WHERE idLT ='$idLT'";
     $query = mysql_query($sql);
     if(mysql_num_rows($query)){
         return mysql_fetch_assoc($query);
     }else{
         return null;
     }
-    
+}
+
+// Ham lay loai tin theo Tên
+function get_LoaiTin_Ten($Ten)
+{
+    $sql = "SELECT * FROM loaitin WHERE Ten ='$Ten'";
+    $query = mysql_query($sql);
+    return mysql_num_rows($query);
 }
 
 // Ham lay user theo idUser
@@ -81,7 +110,7 @@ function utf8Url($string){
 $title = 'Chuyển tiếng viết có dấu sang không dấu trong PHP';
 $url = sanitizeTitle($title);
 
-
+// them moi the loai
 function insert_TheLoai($array = array())
 {
 
@@ -94,7 +123,25 @@ function insert_TheLoai($array = array())
             return "ERROR: Could not able to execute $sql. " ;
         }
     }
-    
+}
 
+function edit_TheLoai($idTL,$theloai = array())
+{
+    $query="UPDATE theloai
+            SET TenTL = '".$theloai['TenTL']."', TenTL_KhongDau = '".sanitizeTitle($theloai['TenTL'])."', ThuTu = '".$theloai['ThuTu']."', AnHien = '".$theloai['AnHien']."' 
+            WHERE idTL='$idTL'";
 
+    return mysql_query($query)or die(mysql_error());
+}
+
+// them moi loai tin
+function insert_LoaiTin($loaitin)
+{
+
+    if(!empty($loaitin)){
+    $sql = "INSERT INTO loaitin (Ten, Ten_KhongDau, ThuTu, AnHien,idTL) VALUES ('".$loaitin['Ten']."', '".sanitizeTitle($loaitin['Ten'])."', '".$loaitin['ThuTu']."','".$loaitin['AnHien']."','".$loaitin['idTL']."')";
+
+     return mysql_query($sql);
+        
+    }
 }

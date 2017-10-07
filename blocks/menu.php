@@ -58,9 +58,9 @@ ddsmoothmenu.init({
 
 <div id="smoothmenu1" class="ddsmoothmenu">
 <ul>
-  <li class="active"><a href="./"><img class="logo_icon_home" alt="" src="images/img_logo_home.gif">Trang chu</a></li>
+  <li class="active"><a href="./"><img class="logo_icon_home" alt="" src="images/img_logo_home.gif"></a></li>
   <?php 
-    $theloai = get_theloai();
+    $theloai = get_TheLoai_menu();
     while ($row_theloai = mysql_fetch_array($theloai)) {
   ?>
   <li><a href="index.php?p=tintheloai&idTL=<?= $row_theloai['idTL'] ?>"><?= $row_theloai['TenTL'] ?></a>

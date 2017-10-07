@@ -46,8 +46,13 @@
 					break;
 
 				case "listLoaiTin":
-					require("pages/loaitin/listLoaiTin.php");
+					require("pages/loaitin/danhsach.php");
 					break;
+
+				case "themloaitin":
+					require("pages/loaitin/insert_.php");
+					break;
+					
 				case "listTin":
 					require("pages/tin/listTin.php");
 					break;

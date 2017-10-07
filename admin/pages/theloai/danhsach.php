@@ -28,6 +28,9 @@ if(!mysql_num_rows($theloai)){
       <div class="x_panel">
         <div class="x_title">
           <h2>Fixed Header Example <small>Users</small></h2>
+          <?php if (isset($_SESSION['message'])): ?>
+            <span style="margin-left: 200px;color: #EC0408;"><?= $_SESSION['message']; ?></span>
+          <?php unset($_SESSION['message']); endif ?>
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -60,6 +63,7 @@ if(!mysql_num_rows($theloai)){
               <tr>
                 <th>idTL</th>
                 <th>Tên</th>
+                <th>Tên không dấu</th>
                 <th>Thứ tự</th>
                 <th>Trạng thái</th>
                 <th>Action</th>
@@ -73,14 +77,16 @@ if(!mysql_num_rows($theloai)){
               <tr>
                 <td>{idTL}</td>
                 <td>{TenTL}</td>
+                <td>{TenTL_KhongDau}</td>
                 <td>{ThuTu}</td>
                 <td>{AnHien}</td>
-                <td><a href="suaTheLoai.php?idTL={idTL}">Sua</a> - <a href="xoaTheLoai.php?idTL={idTL}">Xoa</a></td>
+                <td><a href="index.php?p=themTheLoai&idTL={idTL}">Sua <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="pages/theloai/xoaTheLoai.php?idTL={idTL}" onclick="delete_TL('{TenTL}')">Xoa <i class="fa fa-trash"></i></a></td>
               </tr>
               <?php 
               $s = ob_get_clean();
               $s = str_replace("{idTL}",$result['idTL'],$s);
               $s = str_replace("{TenTL}",$result['TenTL'],$s);
+              $s = str_replace("{TenTL_KhongDau}",$result['TenTL_KhongDau'],$s);
               $s = str_replace("{ThuTu}",$result['ThuTu'],$s);
               $s = str_replace("{AnHien}",($result['AnHien']==1)?'Hiện':'Ẩn',$s);
               echo $s;
@@ -97,3 +103,10 @@ if(!mysql_num_rows($theloai)){
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+   function delete_TL(idTL) {
+       confirm('Ban co muon xoa '+idTL);
+    }
+  
+</script>
