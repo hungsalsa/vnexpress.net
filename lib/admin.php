@@ -33,7 +33,7 @@ function TheLoai_delete($idTL)
 
 function get_tin()
 {
-    $sql = "SELECT * FROM tin WHERE AnHien=1 LIMIT 0,30";
+    $sql = "SELECT * FROM tin";
     return mysql_query($sql);
 }
 
@@ -48,12 +48,7 @@ function get_listLoaiTin()
 function get_LoaiTin($idLT)
 {
     $sql = "SELECT * FROM loaitin WHERE idLT ='$idLT'";
-    $query = mysql_query($sql);
-    if(mysql_num_rows($query)){
-        return mysql_fetch_assoc($query);
-    }else{
-        return null;
-    }
+    return mysql_query($sql);
 }
 
 // Ham lay loai tin theo Tên
@@ -64,6 +59,12 @@ function get_LoaiTin_Ten($Ten)
     return mysql_num_rows($query);
 }
 
+// Ham Xoa loai tin theo idTL
+function LoaiTin_delete($idLT)
+{
+    $sql = "DELETE FROM loaitin WHERE idLT='$idLT'";
+    return mysql_query($sql);
+}
 // Ham lay user theo idUser
 function get_User($idUser)
 {
@@ -125,6 +126,7 @@ function insert_TheLoai($array = array())
     }
 }
 
+// Sua the loai
 function edit_TheLoai($idTL,$theloai = array())
 {
     $query="UPDATE theloai
@@ -144,4 +146,19 @@ function insert_LoaiTin($loaitin)
      return mysql_query($sql);
         
     }
+}
+
+// Sửa loại tin
+
+function edit_LoaiTin($idLT,$loaitin = array())
+{
+    // $query="UPDATE loaitin
+    //         SET Ten = '".$loaitin['Ten']."', Ten_KhongDau = '".sanitizeTitle($loaitin['Ten'])."', ThuTu = '".$loaitin['ThuTu']."', AnHien = '".$loaitin['AnHien'].", idTL = '".$loaitin['idTL']."' 
+    //         WHERE idLT='$idLT'";
+
+$query="UPDATE loaitin
+            SET Ten = '".$loaitin['Ten']."', Ten_KhongDau = '".sanitizeTitle($loaitin['Ten'])."', ThuTu = '".$loaitin['ThuTu']."', AnHien = '".$loaitin['AnHien']."', idTL = '".$loaitin['idTL']."' 
+            WHERE idLT='$idLT'";
+
+    return mysql_query($query)or die(mysql_error());
 }

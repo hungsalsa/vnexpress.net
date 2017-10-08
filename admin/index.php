@@ -49,16 +49,17 @@
 					require("pages/loaitin/danhsach.php");
 					break;
 
-				case "themloaitin":
+				case "themloaitin" || "sualoaitin":
 					require("pages/loaitin/insert_.php");
 					break;
 					
 				case "listTin":
-					require("pages/tin/listTin.php");
+					require("pages/tintuc/danhsach.php");
 					break;
-				// case "listQuangCao":
-				// 	require("/pages/listQuangCao.php");
-				// 	break;
+
+				case "themtintuc" || "suatintuc":
+					require("pages/tintuc/insert_.php");
+				break;
 
 				default:
 					require("/pages/content.php");
@@ -81,28 +82,6 @@
 	<?php
 
 	require 'blocks/link_js.php'; 
-	 
-	// switch ($p) {
-	// 	case "listTheLoai":
-	// 		require("pages/theloai/link_js.php");
-	// 		break;
-
-	// 	// case "listLoaiTin":
-	// 	// 	require("/pages/listLoaiTin.php");
-	// 	// 	break;
-	// 	case "listTin":
-	// 		require("pages/theloai/link_js.php");
-	// 		break;
-	// 	// case "listQuangCao":
-	// 	// 	require("/pages/listQuangCao.php");
-	// 	// 	break;
-
-	// 	default:
-	// 		require 'blocks/link_js.php'; 
-	// 		break;
-	// }
-	 ?>
-
-	
+ ?>
 </body>
 </html>

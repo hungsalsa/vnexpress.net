@@ -1,6 +1,6 @@
 <?php 
-$loaitin = get_listLoaiTin();
-if(!mysql_num_rows($loaitin)){
+$tin = get_tin();
+if(!mysql_num_rows($tin)){
   $message ="Khong co co so du lieu";
 }
 ?>
@@ -52,10 +52,10 @@ if(!mysql_num_rows($loaitin)){
         <div class="x_content">
           <p class="text-muted font-13 m-b-30">
             Danh sách loại tin
-           <span class="insert" style="float: right;"><a href="index.php?p=themloaitin"><button type="button" class="btn btn-success">Thêm mới loại tin</button></a></span>
+           <span class="insert" style="float: right;"><a href="index.php?p=themtin"><button type="button" class="btn btn-success">Thêm mới loại tin</button></a></span>
           </p>
 
-          <?php if (mysql_num_rows($loaitin)): ?>
+          <?php if (mysql_num_rows($tin)): ?>
         
           <table id="datatable-fixed-header" class="table table-striped table-bordered">
             <thead>
@@ -73,7 +73,7 @@ if(!mysql_num_rows($loaitin)){
 
             <tbody>
 
-              <?php while($result = mysql_fetch_assoc($loaitin)): ob_start();?>
+              <?php while($result = mysql_fetch_assoc($tin)): ob_start();?>
               <tr>
                 <td>{idLT}</td>
                 <td>{Ten}</td>
@@ -81,7 +81,7 @@ if(!mysql_num_rows($loaitin)){
                 <td>{ThuTu}</td>
                 <td>{idTL}</td>
                 <td>{AnHien}</td>
-                <td><a href="index.php?p=sualoaitin&idLT={idLT}">Sửa <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="index.php?p=listLoaiTin&idLTdel={idLT}" onclick="delete_TL('{Ten}')">Xóa <i class="fa fa-trash"></i></a></td>
+                <td><a href="index.php?p=suatin&idLT={idLT}">Sửa <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="index.php?p=listtin&idLTdel={idLT}" onclick="delete_TL('{Ten}')">Xóa <i class="fa fa-trash"></i></a></td>
               </tr>
               <?php 
               $s = ob_get_clean();
@@ -116,9 +116,9 @@ if(!mysql_num_rows($loaitin)){
 if(isset($_GET['idLTdel'])){
 
 	$idLT = $_GET['idLTdel'];
-	$loaitin = get_LoaiTin($idLT);
+	$tin = get_tin($idLT);
 
-	if(mysql_num_rows($loaitin)){
-		LoaiTin_delete($idLT);
+	if(mysql_num_rows($tin)){
+		tin_delete($idLT);
 	}
 }

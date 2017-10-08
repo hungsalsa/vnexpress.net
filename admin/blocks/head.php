@@ -28,9 +28,6 @@
 			<?php
 			break;
 
-
-		
-
 		default:
 		?>
 		<!-- bootstrap-progressbar -->
