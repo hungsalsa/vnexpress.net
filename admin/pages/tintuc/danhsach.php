@@ -51,8 +51,8 @@ if(!mysql_num_rows($tin)){
 
         <div class="x_content">
           <p class="text-muted font-13 m-b-30">
-            Danh sách loại tin
-           <span class="insert" style="float: right;"><a href="index.php?p=themtin"><button type="button" class="btn btn-success">Thêm mới loại tin</button></a></span>
+            Danh sách tin tức
+           <span class="insert" style="float: right;"><a href="index.php?p=themtintuc"><button type="button" class="btn btn-success">Thêm mới tin tức</button></a></span>
           </p>
 
           <?php if (mysql_num_rows($tin)): ?>
@@ -62,11 +62,11 @@ if(!mysql_num_rows($tin)){
               <tr>
                 <th>idLT</th>
                 <th>Tên</th>
-                <th>Tên không dấu</th>
-                <th>Thứ tự</th>
-                <th>Thể loại</th>
+                <th width="10%">Ảnh</th>
+                <th>Tóm tắt/th>
+                <th>Loại tin</th>
                 <th>Trạng thái</th>
-                <th>Action</th>
+                <th width="10%">Action</th>
               </tr>
             </thead>
 
@@ -75,21 +75,21 @@ if(!mysql_num_rows($tin)){
 
               <?php while($result = mysql_fetch_assoc($tin)): ob_start();?>
               <tr>
+                <td>{idTin}</td>
+                <td>{TieuDe}</td>
+                <td><img src="../upload/tintuc/{urlHinh}" alt="{TieuDe}" width="50px"></td>
+                <td>{TomTat}</td>
                 <td>{idLT}</td>
-                <td>{Ten}</td>
-                <td>{Ten_KhongDau}</td>
-                <td>{ThuTu}</td>
-                <td>{idTL}</td>
                 <td>{AnHien}</td>
-                <td><a href="index.php?p=suatin&idLT={idLT}">Sửa <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="index.php?p=listtin&idLTdel={idLT}" onclick="delete_TL('{Ten}')">Xóa <i class="fa fa-trash"></i></a></td>
+                <td><a href="index.php?p=suatin&idTin={idTin}">Sửa <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="index.php?p=listtin&idLTdel={idTin}" onclick="delete_TL('{TieuDe}')">Xóa <i class="fa fa-trash"></i></a></td>
               </tr>
               <?php 
               $s = ob_get_clean();
+              $s = str_replace("{idTin}",$result['idTin'],$s);
+              $s = str_replace("{TieuDe}",$result['TieuDe'],$s);
+              $s = str_replace("{urlHinh}",$result['urlHinh'],$s);
+              $s = str_replace("{TomTat}",$result['TomTat'],$s);
               $s = str_replace("{idLT}",$result['idLT'],$s);
-              $s = str_replace("{Ten}",$result['Ten'],$s);
-              $s = str_replace("{Ten_KhongDau}",$result['Ten_KhongDau'],$s);
-              $s = str_replace("{ThuTu}",$result['ThuTu'],$s);
-              $s = str_replace("{idTL}",$result['idTL'],$s);
               $s = str_replace("{AnHien}",($result['AnHien']==1)?'Hiện':'Ẩn',$s);
               echo $s;
               ?>

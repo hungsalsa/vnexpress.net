@@ -1,10 +1,10 @@
 <?php 
 ob_start();
 
-if(isset($_GET['idLT'])){
-  $idLT = $_GET['idLT'];
-  settype($idLT,"int");
-  $loaitin = get_LoaiTin($idLT);
+if(isset($_GET['idTin'])){
+  $idTin = $_GET['idTin'];
+  settype($idTin,"int");
+  $loaitin = get_LoaiTin($idTin);
 
   if(mysql_num_rows($loaitin)){
     $loaitin = mysql_fetch_assoc($loaitin);
@@ -15,13 +15,13 @@ if(isset($_GET['idLT'])){
       $Edit_LT = $_POST;
 
     // edit_loaitin
-      edit_LoaiTin($idLT,$Edit_LT);
+      edit_LoaiTin($idTin,$Edit_LT);
       
       if(mysql_error()){
         die(mysql_error());
       } else{
         $_SESSION['message'] = "Bạn sửa thành công ".$Edit_LT['Ten'];
-        header("location:index.php?p=listLoaiTin");
+        header("location:index.php?p=listTin");
       }
     }
   }
@@ -50,7 +50,7 @@ if(isset($_GET['idLT'])){
 <div class="">
   <div class="page-title">
     <div class="title_left">
-      <h3><?= (isset($_GET['idLT']))? 'Sửa thể loại':'Thêm mới thể loại' ?></h3>
+      <h3><?= (isset($_GET['idTin']))? 'Sửa tin tức':'Thêm mới tin tức' ?></h3>
     </div>
 
     <div class="title_right">
@@ -92,22 +92,34 @@ if(isset($_GET['idLT'])){
           <form class="form-horizontal form-label-left" method="post" action="">
 
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên loại tin</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Tiêu đề tin tức</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <input required="required" type="text" class="form-control" placeholder="Nhập tên loại tin" name="Ten" value="<?= (isset($_GET['idLT']))? $loaitin['Ten']:'' ?>">
+                <input required="required" type="text" class="form-control" placeholder="Nhập tiêu đề tin tức" name="TieuDe" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
               </div>
             </div>
 
-            <?php 
-            $theloai =get_theloai_Active();
-            ?>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Tóm tắt</label>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <input required="required" type="text" class="form-control" placeholder="Mô tả loại tin" name="TomTat" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Hình ảnh</label>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <input required="required" type="text" class="form-control" placeholder="Mô tả loại tin" name="urlHinh" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
+              </div>
+            </div>
+
+
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Thuộc thể loại</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <select class="form-control" name="idTL">
                     <option > -- Chọn thể loại -- </option>
                   <?php while ($result = mysql_fetch_assoc($theloai)): ?>
-                    <option value="<?= $result['idTL'] ?>" <?= (isset($_GET['idLT']) && $result['idTL'] == $loaitin['idTL'])?'selected="select"':'' ?> > <?= $result['TenTL'] ?> </option>
+                    <option value="<?= $result['idTL'] ?>" <?= (isset($_GET['idTin']) && $result['idTL'] == $loaitin['idTL'])?'selected="select"':'' ?> > <?= $result['TenTL'] ?> </option>
                   <?php endwhile ?>
                 </select>
               </div>
@@ -117,15 +129,15 @@ if(isset($_GET['idLT'])){
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Thứ tự hiển thị</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <input type="number" name="ThuTu" id="autocomplete-custom-append" class="form-control col-md-10" value="<?= (isset($_GET['idLT']) || $loaitin)? $loaitin['ThuTu']:'' ?>"/>
+                <input type="number" name="ThuTu" id="autocomplete-custom-append" class="form-control col-md-10" value="<?= (isset($_GET['idTin']) || $loaitin)? $loaitin['ThuTu']:'' ?>"/>
               </div>
             </div>
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng thái</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <select class="form-control" name="AnHien">
-                  <option value="1" <?= (isset($_GET['idLT']) && $loaitin['AnHien']==1 )? 'selected="select"' :'' ?>> Hiện </option>
-                  <option value="0" <?= (isset($_GET['idLT']) && $loaitin['AnHien']==0)? 'selected="select"' :'' ?>> Ẩn </option>
+                  <option value="1" <?= (isset($_GET['idTin']) && $loaitin['AnHien']==1 )? 'selected="select"' :'' ?>> Hiện </option>
+                  <option value="0" <?= (isset($_GET['idTin']) && $loaitin['AnHien']==0)? 'selected="select"' :'' ?>> Ẩn </option>
                 </select>
               </div>
             </div>
@@ -135,7 +147,7 @@ if(isset($_GET['idLT'])){
               <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                 <button type="submit" class="btn btn-primary" name="Cancel">Cancel</button>
                 <button type="reset" class="btn btn-primary">Reset</button>
-                <button type="submit" class="btn btn-success" name="<?= (isset($_GET['idLT']))? 'suaLT':'themLT' ?>"><?= (isset($_GET['idLT']))? 'Sửa loại tin':'Thêm loại tin' ?></button>
+                <button type="submit" class="btn btn-success" name="<?= (isset($_GET['idTin']))? 'suaLT':'themLT' ?>"><?= (isset($_GET['idTin']))? 'Sửa loại tin':'Thêm loại tin' ?></button>
               </div>
             </div>
 
@@ -146,6 +158,34 @@ if(isset($_GET['idLT'])){
   </div>
 </div>
 
+  <!-- MODAL   -->
+<!-- Large modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+
+<!-- Small modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#myModal').on('show.bs.modal', function (e) {
+    if (!data) return e.preventDefault() // stops modal from being shown
+  });
+</script>
 
 <?php 
 if(isset($_POST['Cancel'])){

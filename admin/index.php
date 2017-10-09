@@ -36,6 +36,7 @@
 	         <div class="right_col" role="main">
 
 			<?php 
+			// echo $p;
 			switch ($p) {
 				case "listTheLoai":
 					require("pages/theloai/danhsach.php");
@@ -49,7 +50,11 @@
 					require("pages/loaitin/danhsach.php");
 					break;
 
-				case "themloaitin" || "sualoaitin":
+				case "themloaitin":
+					require("pages/loaitin/insert_.php");
+					break;
+
+				case "sualoaitin":
 					require("pages/loaitin/insert_.php");
 					break;
 					
@@ -57,9 +62,15 @@
 					require("pages/tintuc/danhsach.php");
 					break;
 
-				case "themtintuc" || "suatintuc":
+				case "themtintuc":
 					require("pages/tintuc/insert_.php");
-				break;
+					break;
+
+				case "suatintuc":
+					require("pages/tintuc/insert_.php");
+					break;
+
+
 
 				default:
 					require("/pages/content.php");
@@ -78,10 +89,12 @@
 
 		</div>
 	</div>
-	
-	<?php
 
+
+
+
+<?php
 	require 'blocks/link_js.php'; 
- ?>
+?>
 </body>
 </html>
