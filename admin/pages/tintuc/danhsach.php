@@ -63,7 +63,7 @@ if(!mysql_num_rows($tin)){
                 <th>idLT</th>
                 <th>Tên</th>
                 <th width="10%">Ảnh</th>
-                <th>Tóm tắt/th>
+                <th>Tóm tắt</th>
                 <th>Loại tin</th>
                 <th>Trạng thái</th>
                 <th width="10%">Action</th>
@@ -107,18 +107,18 @@ if(!mysql_num_rows($tin)){
 </div>
 
 <script type="text/javascript">
-   function delete_TL(idLT) {
-       confirm('Ban co muon xoa '+idLT);
+   function delete_TL(idTin) {
+       confirm('Ban co muon xoa '+idTin);
     }
   
 </script>
 <?php
-if(isset($_GET['idLTdel'])){
+if(isset($_GET['idTindel'])){
 
-	$idLT = $_GET['idLTdel'];
-	$tin = get_tin($idLT);
+	$idTin = $_GET['idTindel'];
+	$tin = get_tin($idTin);
 
 	if(mysql_num_rows($tin)){
-		tin_delete($idLT);
+		tin_delete($idTin);
 	}
 }

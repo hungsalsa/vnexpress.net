@@ -98,10 +98,19 @@ if(isset($_GET['idTin'])){
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Tóm tắt</label>
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tóm tắt <span class="required">*</span>
+              </label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <input required="required" type="text" class="form-control" placeholder="Mô tả loại tin" name="TomTat" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
+                <textarea id="textarea" required="required" name="TomTat" class="form-control col-md-7 col-xs-12"></textarea>
+              </div>
+            </div>
+
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Nội dung <span class="required">*</span>
+              </label>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <textarea id="textarea" required="required" name="Content" class="form-control col-md-7 col-xs-12" rows="8"></textarea>
               </div>
             </div>
 
@@ -125,11 +134,33 @@ if(isset($_GET['idTin'])){
               </div>
             </div>
 
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Thuộc loại tin</label>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <select class="form-control" name="idLT">
+                    <option > -- Chọn loại tin -- </option>
+                  <?php while ($result = mysql_fetch_assoc($theloai)): ?>
+                    <option value="<?= $result['idTL'] ?>" <?= (isset($_GET['idTin']) && $result['idTL'] == $loaitin['idTL'])?'selected="select"':'' ?> > <?= $result['TenTL'] ?> </option>
+                  <?php endwhile ?>
+                </select>
+              </div>
+            </div>
+
 
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Thứ tự hiển thị</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <input type="number" name="ThuTu" id="autocomplete-custom-append" class="form-control col-md-10" value="<?= (isset($_GET['idTin']) || $loaitin)? $loaitin['ThuTu']:'' ?>"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Tin nổi bật</label>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <select class="form-control" name="TinNoiBat">
+                  <option value="1" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==1 )? 'selected="select"' :'' ?>> Hiện </option>
+                  <option value="0" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==0)? 'selected="select"' :'' ?>> Ẩn </option>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -147,7 +178,7 @@ if(isset($_GET['idTin'])){
               <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                 <button type="submit" class="btn btn-primary" name="Cancel">Cancel</button>
                 <button type="reset" class="btn btn-primary">Reset</button>
-                <button type="submit" class="btn btn-success" name="<?= (isset($_GET['idTin']))? 'suaLT':'themLT' ?>"><?= (isset($_GET['idTin']))? 'Sửa loại tin':'Thêm loại tin' ?></button>
+                <button type="submit" class="btn btn-success" name="<?= (isset($_GET['idTin']))? 'suaTin':'themTin' ?>"><?= (isset($_GET['idTin']))? 'Cập nhật':'Thêm mới' ?></button>
               </div>
             </div>
 
