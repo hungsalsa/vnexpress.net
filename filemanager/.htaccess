@@ -1,0 +1,6 @@
+ReWriteEngine on
+ReWritecond %{REQUEST_URL} !^public
+
+
+#RewriteRule ^backend(.*)$ backend/web/$1 [L,PT]
+
