@@ -44,12 +44,28 @@ function get_listLoaiTin()
     return mysql_query($sql);
 }
 
+// Hàm lấy danh sách loại tin Active
+function get_listLoaiTin_Active()
+{
+    $sql =  "SELECT * FROM loaitin WHERE AnHien=1";
+    return mysql_query($sql);
+}
+
 // Ham lay loai tin theo idLT
 function get_LoaiTin($idLT)
 {
     $sql = "SELECT * FROM loaitin WHERE idLT ='$idLT'";
     return mysql_query($sql);
 }
+
+// Ham lay loai tin theo idLT
+function get_Ten_LoaiTin($idLT)
+{
+    $sql = "SELECT idTL,Ten FROM loaitin WHERE idLT ='$idLT'";
+    $query =  mysql_query($sql);
+    return mysql_fetch_assoc($query);
+}
+
 
 // Ham lay loai tin theo Tên
 function get_LoaiTin_Ten($Ten)

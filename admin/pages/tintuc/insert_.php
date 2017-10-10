@@ -1,49 +1,50 @@
 <?php 
 ob_start();
 
-if(isset($_GET['idTin'])){
-  $idTin = $_GET['idTin'];
-  settype($idTin,"int");
-  $loaitin = get_LoaiTin($idTin);
+// if(isset($_GET['idTin'])){
+//   $idTin = $_GET['idTin'];
+//   settype($idTin,"int");
+//   $loaitin = get_LoaiTin($idTin);
 
-  if(mysql_num_rows($loaitin)){
-    $loaitin = mysql_fetch_assoc($loaitin);
+//   if(mysql_num_rows($loaitin)){
+//     $loaitin = mysql_fetch_assoc($loaitin);
 
-    // Sửa loại tin
-    if(isset($_POST['suaLT'])){
-      $post =array();
-      $Edit_LT = $_POST;
+//     // Sửa loại tin
+//     if(isset($_POST['suaLT'])){
+//       $post =array();
+//       $Edit_LT = $_POST;
 
-    // edit_loaitin
-      edit_LoaiTin($idTin,$Edit_LT);
+//     // edit_loaitin
+//       edit_LoaiTin($idTin,$Edit_LT);
       
-      if(mysql_error()){
-        die(mysql_error());
-      } else{
-        $_SESSION['message'] = "Bạn sửa thành công ".$Edit_LT['Ten'];
-        header("location:index.php?p=listTin");
-      }
-    }
-  }
-}
+//       if(mysql_error()){
+//         die(mysql_error());
+//       } else{
+//         $_SESSION['message'] = "Bạn sửa thành công ".$Edit_LT['Ten'];
+//         header("location:index.php?p=listTin");
+//       }
+//     }
+//   }
+// }
 
-  // khi click thêm loại tin
-  if(isset($_POST['themLT'])){
-    $loaitin =array();
-    $loaitin = $_POST;
-    // Kiem tra loại tin đã có chưa
-    if(get_LoaiTin_Ten($loaitin['Ten'])){
-      $message = "Loại tin ".$loaitin['Ten']." đã có !";
-    }else{
-      if($link = insert_LoaiTin($loaitin)){
-        $_SESSION['message'] = "Bạn thêm thành công ".$loaitin['Ten'];
-        header("location:index.php?p=listLoaiTin");
-      }else{
-        echo 'ERRORRRR'.mysql_error($link);die();
-      }
-    }
+  // // khi click thêm tin tức
+  // if(isset($_POST['themTin'])){
+  //   $tin =array();
+  //   $tin = $_POST;
+  //   echo '<pre>';print_r($tin);die;
+  //   // Kiem tra loại tin đã có chưa
+  //   if(get_LoaiTin_Ten($loaitin['Ten'])){
+  //     $message = "Loại tin ".$loaitin['Ten']." đã có !";
+  //   }else{
+  //     if($link = insert_LoaiTin($loaitin)){
+  //       $_SESSION['message'] = "Bạn thêm thành công ".$loaitin['Ten'];
+  //       header("location:index.php?p=listLoaiTin");
+  //     }else{
+  //       echo 'ERRORRRR'.mysql_error($link);die();
+  //     }
+  //   }
     
-  }
+  // }
 
  ?>
 
@@ -89,7 +90,7 @@ if(isset($_GET['idTin'])){
         </div>
         <div class="x_content">
           <br />
-          <form class="form-horizontal form-label-left" method="post" action="">
+          <form class="form-horizontal form-label-left" method="get">
 
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Tiêu đề tin tức</label>
@@ -102,7 +103,7 @@ if(isset($_GET['idTin'])){
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tóm tắt <span class="required">*</span>
               </label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <textarea id="textarea" required="required" name="TomTat" class="form-control col-md-7 col-xs-12"></textarea>
+                <textarea id="textarea" name="TomTat" class="form-control col-md-7 col-xs-12"></textarea>
               </div>
             </div>
 
@@ -110,18 +111,23 @@ if(isset($_GET['idTin'])){
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Nội dung <span class="required">*</span>
               </label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <textarea id="textarea" required="required" name="Content" class="form-control col-md-7 col-xs-12" rows="8"></textarea>
+                <textarea id="textarea"  name="Content" class="form-control col-md-7 col-xs-12" rows="8"></textarea>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Hình ảnh</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
-                <input required="required" type="text" class="form-control" placeholder="Mô tả loại tin" name="urlHinh" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
+                <input id="imageFile" type="text" class="form-control" placeholder="Mô tả loại tin" name="urlHinh" value="<?= (isset($_GET['idTin']))? $loaitin['Ten']:'' ?>">
+              </div>
+              <div class="col-md-9 col-sm-9 col-xs-12">
+                <img src="" id="previewImage" style="margin-left: 300px;">
               </div>
             </div>
 
-
+            <?php 
+              $theloai =get_theloai_Active();
+            ?>
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Thuộc thể loại</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
@@ -134,13 +140,14 @@ if(isset($_GET['idTin'])){
               </div>
             </div>
 
+          <?php $list_loaitin = get_listLoaiTin_Active(); ?>
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Thuộc loại tin</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <select class="form-control" name="idLT">
                     <option > -- Chọn loại tin -- </option>
-                  <?php while ($result = mysql_fetch_assoc($theloai)): ?>
-                    <option value="<?= $result['idTL'] ?>" <?= (isset($_GET['idTin']) && $result['idTL'] == $loaitin['idTL'])?'selected="select"':'' ?> > <?= $result['TenTL'] ?> </option>
+                  <?php while ($result = mysql_fetch_assoc($list_loaitin)): ?>
+                    <option value="<?= $result['idTL'] ?>" <?= (isset($_GET['idTin']) && $result['idTL'] == $loaitin['idTL'])?'selected="select"':'' ?> > <?= $result['Ten'] ?> </option>
                   <?php endwhile ?>
                 </select>
               </div>
@@ -158,8 +165,8 @@ if(isset($_GET['idTin'])){
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Tin nổi bật</label>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <select class="form-control" name="TinNoiBat">
-                  <option value="1" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==1 )? 'selected="select"' :'' ?>> Hiện </option>
-                  <option value="0" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==0)? 'selected="select"' :'' ?>> Ẩn </option>
+                  <option value="1" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==1 )? 'selected="select"' :'' ?>> Nổi bật </option>
+                  <option value="0" <?= (isset($_GET['idTin']) && $loaitin['TinNoiBat']==0)? 'selected="select"' :'' ?>> Không </option>
                 </select>
               </div>
             </div>
@@ -176,7 +183,7 @@ if(isset($_GET['idTin'])){
             <div class="ln_solid"></div>
             <div class="form-group">
               <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                <button type="submit" class="btn btn-primary" name="Cancel">Cancel</button>
+                <!-- <button type="submit" class="btn btn-primary" name="Cancel">Cancel</button> -->
                 <button type="reset" class="btn btn-primary">Reset</button>
                 <button type="submit" class="btn btn-success" name="<?= (isset($_GET['idTin']))? 'suaTin':'themTin' ?>"><?= (isset($_GET['idTin']))? 'Cập nhật':'Thêm mới' ?></button>
               </div>
@@ -189,41 +196,12 @@ if(isset($_GET['idTin'])){
   </div>
 </div>
 
-  <!-- MODAL   -->
-<!-- Large modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+ 
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div>
 
-<!-- Small modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript">
-  $('#myModal').on('show.bs.modal', function (e) {
-    if (!data) return e.preventDefault() // stops modal from being shown
-  });
-</script>
 
 <?php 
-if(isset($_POST['Cancel'])){
-  header("location:index.php?p=listloaitin");
-}
-
-
-
-
+// if(isset($_POST['Cancel'])){
+//   header("location:index.php?p=listTin");
+// }
  ?>

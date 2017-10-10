@@ -60,11 +60,9 @@ if(!mysql_num_rows($tin)){
           <table id="datatable-fixed-header" class="table table-striped table-bordered">
             <thead>
               <tr>
-                <th>idLT</th>
-                <th>Tên</th>
-                <th width="10%">Ảnh</th>
-                <th>Tóm tắt</th>
-                <th>Loại tin</th>
+                <th>idLT-Ngày</th>
+                <th>Tiêu đề - Tóm tắt</th>
+                <th width="10%">Loại tin</th>
                 <th>Trạng thái</th>
                 <th width="10%">Action</th>
               </tr>
@@ -72,13 +70,13 @@ if(!mysql_num_rows($tin)){
 
 
             <tbody>
-
+              
               <?php while($result = mysql_fetch_assoc($tin)): ob_start();?>
+                <?php $loaitin = get_Ten_LoaiTin($result['idLT']);?>
               <tr>
-                <td>{idTin}</td>
-                <td>{TieuDe}</td>
-                <td><img src="../upload/tintuc/{urlHinh}" alt="{TieuDe}" width="50px"></td>
-                <td>{TomTat}</td>
+                <td>{idTin} - {Ngay}</td>
+                <td><span style="font-size: 16px;color: blue;">{TieuDe}</span><br/>
+                  <img src="../upload/tintuc/{urlHinh}" alt="{TieuDe}" width="50px" style="float: left;"> {TomTat}</td>
                 <td>{idLT}</td>
                 <td>{AnHien}</td>
                 <td><a href="index.php?p=suatin&idTin={idTin}">Sửa <i class="fa fa-edit"></i></a><span style="margin: 0 10px;">-</span><a href="index.php?p=listtin&idLTdel={idTin}" onclick="delete_TL('{TieuDe}')">Xóa <i class="fa fa-trash"></i></a></td>
@@ -86,10 +84,11 @@ if(!mysql_num_rows($tin)){
               <?php 
               $s = ob_get_clean();
               $s = str_replace("{idTin}",$result['idTin'],$s);
+              $s = str_replace("{Ngay}",$result['Ngay'],$s);
               $s = str_replace("{TieuDe}",$result['TieuDe'],$s);
               $s = str_replace("{urlHinh}",$result['urlHinh'],$s);
               $s = str_replace("{TomTat}",$result['TomTat'],$s);
-              $s = str_replace("{idLT}",$result['idLT'],$s);
+              $s = str_replace("{idLT}",$loaitin['Ten'],$s);
               $s = str_replace("{AnHien}",($result['AnHien']==1)?'Hiện':'Ẩn',$s);
               echo $s;
               ?>

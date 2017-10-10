@@ -113,3 +113,7 @@
 
     <!-- Custom Theme Scripts -->
     <script src="build/js/custom.min.js"></script>
+
+
+    <script src="tinymce/tinymce.min.js"></script>
+    <script src="js/tinymce.js"></script>
